@@ -1,0 +1,427 @@
+//
+//  ABAddressBookReader.m
+//  CTPocketV4
+//
+//  Created by apple on 14-3-27.
+//  Copyright (c) 2014年 广东亿迅科技有限公司. All rights reserved.
+//
+
+#import "ABAddressBookReader.h"
+#import "PersonObj.h"
+
+@implementation ABAddressBookReader
+
++ (GroupObj* )convertABRecord2GroupObj:(ABRecordRef)record
+{
+    ABAddressBookReader* reader = [ABAddressBookReader new];
+    return [reader convertABRecord2GroupObj:record];
+}
+
+- (void)readRecordsFromAB:(ABAddressBookRef)addrBookRef
+               completion:(void(^)(NSArray* contacts, NSArray* groups, BOOL success, BOOL hasPopedAlertMsg))completion
+{
+    @autoreleasepool {
+        
+        // 读取本地通讯录
+        NSMutableArray* groupList = [NSMutableArray new];
+        NSMutableArray* contactList = [NSMutableArray new];
+        
+        if (addrBookRef == NULL) {
+            if (completion) {
+                completion(nil, nil, NO, NO);
+            }
+            return;
+        }
+        
+        {
+            // 1.读取群组信息
+            CFArrayRef groups = ABAddressBookCopyArrayOfAllGroups(addrBookRef);
+            if (groups) {
+                CFIndex count = ABAddressBookGetGroupCount(addrBookRef);
+                for (int i = 0; i < count; i++) {
+                    ABRecordRef record = CFArrayGetValueAtIndex(groups, i);
+                    if (record == NULL) {
+                        continue;
+                    }
+                    
+                    ABRecordType recordtype = ABRecordGetRecordType(record);
+                    if (recordtype == kABGroupType) {
+                        GroupObj* obj = [self convertABRecord2GroupObj:record];
+                        if (obj) {
+                            [groupList addObject:obj];
+                        }
+                    }
+                }
+                CFRelease(groups);
+            }
+        }
+        
+        {
+            // 2.读取联系人信息
+            CFArrayRef contacts = ABAddressBookCopyArrayOfAllPeople(addrBookRef);
+            if (contacts) {
+                CFIndex count = ABAddressBookGetPersonCount(addrBookRef);
+                for (int i = 0; i < count; i++) {
+                    ABRecordRef record = CFArrayGetValueAtIndex(contacts, i);
+                    if (record == NULL) {
+                        continue;
+                    }
+                    
+                    ABRecordType recordtype = ABRecordGetRecordType(record);
+                    if (recordtype == kABPersonType) {
+                        PersonObj* obj = [self convertABRecord2PersonObj:record groupList:groupList];
+                        if (obj) {
+                            [contactList addObject:obj];
+                        }
+                    }
+                }
+                CFRelease(contacts);
+            }
+        }
+        
+        if (completion) {
+            completion(contactList, groupList, YES, NO);
+        }
+    }
+}
+
+- (PersonObj* )convertABRecord2PersonObj:(ABRecordRef)record groupList:(NSArray* )groupList
+{
+    if (record == NULL) {
+        return nil;
+    }
+    
+    PersonObj* obj = [PersonObj new];
+    obj.recordId = ABRecordGetRecordID(record);
+    
+    {
+        /*
+         Amir  17:19:44
+         你把family_name 和given_name  上传的时候 合并，中间以空格分隔
+         Amir  17:19:59
+         因为返回的时候只返回family_name
+         */
+        // 姓名
+        NSString* lastName = (NSString*)CFBridgingRelease(ABRecordCopyValue(record, kABPersonLastNameProperty));
+#warning todo 特殊符号及表情符号处理
+        
+        NSString* firstName = (NSString*)CFBridgingRelease(ABRecordCopyValue(record, kABPersonFirstNameProperty));
+        NSMutableString* name = [NSMutableString new];
+        if (lastName.length) {
+            [name appendFormat:@"%@ ", lastName];
+        }
+        if (firstName) {
+            [name appendString:firstName];
+        }
+        obj.name = name;
+    }
+    
+    // 昵称
+    obj.nickName = (NSString*)CFBridgingRelease(ABRecordCopyValue(record, kABPersonNicknameProperty));
+    
+    // 电话
+    ABMultiValueRef phoneValue = ABRecordCopyValue(record, kABPersonPhoneProperty);
+    [self convertPhoneRecord2PersonObj:phoneValue person:obj];
+    if (phoneValue) {
+        CFRelease(phoneValue);
+    }
+    
+    // 公司名称
+    obj.companyName = (NSString*)CFBridgingRelease(ABRecordCopyValue(record, kABPersonOrganizationProperty));
+    
+    // 部门
+    obj.department = (NSString*)CFBridgingRelease(ABRecordCopyValue(record, kABPersonDepartmentProperty));
+    
+    // 职位
+    obj.jobTitle = (NSString*)CFBridgingRelease(ABRecordCopyValue(record, kABPersonJobTitleProperty));
+    
+    // emails
+    ABMutableMultiValueRef emailValue = ABRecordCopyValue(record, kABPersonEmailProperty);
+    [self convertEmailRecord2PersonObj:emailValue person:obj];
+    if (emailValue) {
+        CFRelease(emailValue);
+    }
+    
+    // 地址
+    ABMutableMultiValueRef addrValue = ABRecordCopyValue(record, kABPersonAddressProperty);
+    [self convertAddrRecord2PersonObj:addrValue person:obj];
+    if (addrValue) {
+        CFRelease(addrValue);
+    }
+    
+    // url
+    ABMutableMultiValueRef urlValue = ABRecordCopyValue(record, kABPersonURLProperty);
+    [self convertUrlRecord2PersonObj:urlValue person:obj];
+    if (urlValue) {
+        CFRelease(urlValue);
+    }
+    
+    // IM
+    ABMutableMultiValueRef imValue = ABRecordCopyValue(record, kABPersonInstantMessageProperty);
+    [self convertIMRecord2PersonObj:imValue person:obj];
+    if (imValue) {
+        CFRelease(imValue);
+    }
+    
+    // birthday
+    obj.birthday = (NSDate*)CFBridgingRelease(ABRecordCopyValue(record, kABPersonBirthdayProperty));
+    
+    // 备注
+    obj.notes = (NSString*)CFBridgingRelease(ABRecordCopyValue(record, kABPersonNoteProperty));
+    
+    // 记录本地关联的分组信息
+    [self checkLocalGroupIds:obj groupList:groupList];
+    
+    return obj;
+}
+
+- (void)convertPhoneRecord2PersonObj:(ABMultiValueRef)phoneValue person:(PersonObj* )person
+{
+    if (phoneValue == NULL ||
+        person == nil) {
+        return;
+    }
+    
+    CFIndex count = ABMultiValueGetCount(phoneValue);
+    for (int i = 0; i < count; i++) {
+        
+        CFStringRef key = ABMultiValueCopyLabelAtIndex(phoneValue, i);
+        if (key == NULL) {
+            continue;
+        }
+        CFStringRef val = ABMultiValueCopyValueAtIndex(phoneValue, i);
+        if (val == NULL) {
+            CFRelease(key);
+            continue;
+        }
+        
+        if (CFEqual(key,kABPersonPhoneMobileLabel) == TRUE) {
+            person.mobile = (NSString*)CFBridgingRelease(val);
+        } else if (CFEqual(key, kABPersonPhoneIPhoneLabel) == TRUE) {
+            person.workMobile = (NSString*)CFBridgingRelease(val);
+        } else if (CFEqual(key,kABHomeLabel) == TRUE) {
+            person.tel = (NSString*)CFBridgingRelease(val);
+        } else if (CFEqual(key,kABWorkLabel) == TRUE) {
+            person.workTel = (NSString*)CFBridgingRelease(val);
+        } else if (CFEqual(key,kABPersonPhoneMainLabel) == TRUE) {
+            person.homeTel = (NSString*)CFBridgingRelease(val);
+        } else if (CFEqual(key,kABPersonPhoneHomeFAXLabel) == TRUE) {
+            person.homeFax = (NSString*)CFBridgingRelease(val);
+            person.fax = person.homeFax;
+        } else if (CFEqual(key,kABPersonPhoneWorkFAXLabel) == TRUE) {
+            person.companyFax = (NSString*)CFBridgingRelease(val);
+        } else {
+            CFRelease(val);
+        }
+        
+        CFRelease(key);
+    }
+}
+
+- (void)convertEmailRecord2PersonObj:(ABMultiValueRef)emailValue person:(PersonObj* )person
+{
+    if (emailValue == NULL ||
+        person == nil) {
+        return;
+    }
+    
+    CFIndex count = ABMultiValueGetCount(emailValue);
+    for (int i = 0; i < count; i++) {
+        
+        CFStringRef key = ABMultiValueCopyLabelAtIndex(emailValue, i);
+        if (key == NULL) {
+            continue;
+        }
+        CFStringRef val = ABMultiValueCopyValueAtIndex(emailValue, i);
+        if (val == NULL) {
+            CFRelease(key);
+            continue;
+        }
+        
+        if (CFEqual(key,kABHomeLabel) == TRUE) {
+            person.email = (NSString*)CFBridgingRelease(val);
+        } else if (CFEqual(key,kABWorkLabel) == TRUE) {
+            person.workEmail = (NSString*)CFBridgingRelease(val);
+        } else if (CFEqual(key,kABOtherLabel) == TRUE) {
+            person.companyEmail = (NSString*)CFBridgingRelease(val);
+        }else {
+            CFRelease(val);
+        }
+        
+        CFRelease(key);
+    }
+}
+
+- (void)convertAddrRecord2PersonObj:(ABMultiValueRef)addrValue person:(PersonObj* )person
+{
+    if (addrValue == NULL ||
+        person == nil) {
+        return;
+    }
+    
+    CFIndex count = ABMultiValueGetCount(addrValue);
+    for (int i = 0; i < count; i++) {
+        
+        CFStringRef key = ABMultiValueCopyLabelAtIndex(addrValue, i);
+        if (key == NULL) {
+            continue;
+        }
+        CFDictionaryRef val = ABMultiValueCopyValueAtIndex(addrValue, i);
+        if (val == NULL) {
+            CFRelease(key);
+            continue;
+        }
+        
+        if (CFEqual(key,kABHomeLabel) == TRUE) {
+            person.homePostalCode = (__bridge NSString*)CFDictionaryGetValue(val, kABPersonAddressZIPKey);
+            person.homeAddr = [self getAddressFromDictionary:val];
+        } else if (CFEqual(key, kABWorkLabel) == TRUE) {
+            person.companyPostalCode = (__bridge NSString*)CFDictionaryGetValue(val, kABPersonAddressZIPKey);
+            person.companyAddr = [self getAddressFromDictionary:val];
+        }
+        
+        CFRelease(key);
+        CFRelease(val);
+    }
+}
+
+- (NSString* )getAddressFromDictionary:(CFDictionaryRef)addrDict
+{
+    if (addrDict == NULL) {
+        return @"";
+    }
+    
+    NSMutableString* addrString = [NSMutableString new];
+    
+    NSString* street = (__bridge NSString*)CFDictionaryGetValue(addrDict, kABPersonAddressStreetKey);
+    NSString* city = (__bridge NSString*)CFDictionaryGetValue(addrDict, kABPersonAddressCityKey);
+    NSString* state = (__bridge NSString*)CFDictionaryGetValue(addrDict, kABPersonAddressStateKey);
+    NSString* country = (__bridge NSString*)CFDictionaryGetValue(addrDict, kABPersonAddressCountryKey);
+    
+    if (country.length) {
+        [addrString appendFormat:@"%@,", country];
+    }
+    
+    if (state.length) {
+        [addrString appendFormat:@"%@,", state];
+    }
+    
+    if (city.length) {
+        [addrString appendFormat:@"%@,", city];
+    }
+    
+    if (street.length) {
+        [addrString appendFormat:@"%@", street];
+    }
+    
+    return addrString;
+}
+
+- (void)convertUrlRecord2PersonObj:(ABMultiValueRef)urlValue person:(PersonObj* )person
+{
+    if (urlValue == NULL ||
+        person == nil) {
+        return;
+    }
+    
+    CFIndex count = ABMultiValueGetCount(urlValue);
+    for (int i = 0; i < count; i++) {
+        
+        CFStringRef key = ABMultiValueCopyLabelAtIndex(urlValue, i);
+        if (key == NULL) {
+            continue;
+        }
+        CFStringRef val = ABMultiValueCopyValueAtIndex(urlValue, i);
+        if (val == NULL) {
+            CFRelease(key);
+            continue;
+        }
+        
+        if (CFEqual(key,kABPersonHomePageLabel) == TRUE) {
+            person.personalHomepage = (NSString*)CFBridgingRelease(val);
+        } else if (CFEqual(key,kABWorkLabel) == TRUE) {
+            person.companyHomepage = (NSString*)CFBridgingRelease(val);
+        } else {
+            CFRelease(val);
+        }
+        
+        CFRelease(key);
+    }
+}
+
+- (void)convertIMRecord2PersonObj:(ABMultiValueRef)addrValue person:(PersonObj* )person
+{
+    if (addrValue == NULL ||
+        person == nil) {
+        return;
+    }
+    
+    CFIndex count = ABMultiValueGetCount(addrValue);
+    for (int i = 0; i < count; i++) {
+        
+        CFDictionaryRef dict = ABMultiValueCopyValueAtIndex(addrValue, i);
+        if (dict == NULL) {
+            continue;
+        }
+        CFStringRef serviceKey = CFDictionaryGetValue(dict, kABPersonInstantMessageServiceKey);
+        if (serviceKey == NULL) {
+            CFRelease(dict);
+            continue;
+        }
+        
+        if (CFEqual(serviceKey,kABPersonInstantMessageServiceQQ) == TRUE) {
+            person.qq = (__bridge NSString*)CFDictionaryGetValue(dict, kABPersonInstantMessageUsernameKey);
+        } else if (CFEqual(serviceKey,kABPersonInstantMessageServiceMSN) == TRUE) {
+            person.msn = (__bridge NSString*)CFDictionaryGetValue(dict, kABPersonInstantMessageUsernameKey);
+        }
+        
+        CFRelease(dict);
+    }
+}
+
+- (void)checkLocalGroupIds:(PersonObj* )person groupList:(NSArray* )groupList
+{
+    // 记录本地关联的分组信息
+    if (!person ||
+        !groupList) {
+        return;
+    }
+    
+    NSMutableArray* arr = [NSMutableArray new];
+    for (GroupObj* group in groupList) {
+        if ([group.memberIds containsObject:[NSNumber numberWithInt:person.recordId]]) {
+            [arr addObject:[NSNumber numberWithInt:group.recordId]];
+        }
+    }
+    person.localGroupIds = arr;
+}
+
+- (GroupObj* )convertABRecord2GroupObj:(ABRecordRef)record
+{
+    if (record == NULL) {
+        return nil;
+    }
+    
+    GroupObj* obj = [GroupObj new];
+    obj.recordId = ABRecordGetRecordID(record);
+    obj.groupName = (NSString* )CFBridgingRelease(ABRecordCopyValue(record, kABGroupNameProperty));
+    
+    NSMutableArray* arr = [NSMutableArray new];
+    CFArrayRef members = ABGroupCopyArrayOfAllMembers(record);
+    if (members != NULL) {
+        CFIndex count = CFArrayGetCount(members);
+        for (int i = 0; i < count; i++) {
+            ABRecordRef member = CFArrayGetValueAtIndex(members, i);
+            if (member) {
+                [arr addObject:[NSNumber numberWithInt:ABRecordGetRecordID(member)]];
+            }
+        }
+        
+        CFRelease(members);
+    }
+    obj.memberIds = [NSArray arrayWithArray:arr];
+    
+    return obj;
+}
+
+@end

@@ -1,0 +1,69 @@
+/*
+ query_public_info_proto
+
+
+ Author:
+
+  Xu Pengcheng
+
+ Version: 1.0
+
+ Creation Time: 2013-12-04
+
+ Description:
+
+  Query Public Info
+
+*/
+
+option optimize_for = LITE_RUNTIME;
+
+package ctuab.proto.message;
+
+message QCity{
+	required int32 CityID = 1;						//The ID of City
+	required string CityName = 2;					//City Name
+	required bool IsHot = 3;						//Is This City is Hot
+	required string FirstWord = 4;					//Initials of City
+}
+
+message QCategory{
+	optional int32 CategoryID = 1;					//The ID of Category
+	optional string CategoryName = 2;				//Category Name
+}
+
+message QCompany{
+	required string CompanyID = 1;					//The ID of Company
+	required string CompanyName = 2;				//CompanuName
+	required string CompamyTel = 3;					//Company Phone Num
+	required string CompanyAdd = 4;					//Company Address
+	required string CompanyDescription = 5;			//Description Info of Company
+	required string CompanyPicUrl = 6;				//Logo Url of Company
+	required float GPSX = 7;						//Abscissa
+	required float GPSY = 8;						//Ordinate
+}
+
+//Get splash request
+message QueryPublicInfoRequest {
+	required int32 type = 1;						//Request Type, 0 Company List, 1 City List, 2 Category List
+	required int32 city_id = 2;						//The User's Location
+	repeated int32 category_ids = 3;				//The List of Category for Query
+	optional string keyword = 4;					//The Key Word of Query
+	optional int32 start = 5;						//The Location of The First Data(For Paging)
+	optional int32 rows = 6[default = 10];			//The Count of Taking Data(For Paging)
+	repeated string company_ids = 7;				//The List of CompanyID
+	optional string mobile_num = 8;					//Phone Number
+	optional string imsi = 9;						//International Mobile Subscriber Identification Number
+	optional string mobile_manufacturer = 10;		//Manufacturer
+	optional string mobile_type = 11;				//Moblie Model 
+	
+}
+
+//Get splash response
+message QueryPublicInfoResponse {
+	required int32 status = 1;						//The Status of Return
+	required int64 numfound = 2;					//The Quantity of Data Queried
+	repeated QCity cities = 3;						//The List of City
+	repeated QCategory categories = 4;				//The List of Category
+	repeated QCompany companies = 5;					//The List of Company
+}

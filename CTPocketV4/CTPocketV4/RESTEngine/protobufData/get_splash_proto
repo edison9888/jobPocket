@@ -1,0 +1,51 @@
+/*
+ get_splash_proto
+
+
+ Author:
+
+  Xu Pengcheng
+
+ Version: 1.0
+
+ Creation Time: 2013-11-27
+
+ Description:
+
+  Get splash
+
+*/
+
+option optimize_for = LITE_RUNTIME;
+
+package ctuab.proto.message;
+
+message Splash {
+	required bytes data = 1;						//File Data
+	optional string url = 2;						//Image Url
+	optional string image_type = 3;					//ImageType,JPEG or GIF ...
+}
+
+//Get splash request
+message GetSplashRequest {
+		optional string mobile_num = 1;				//Phone Number
+		optional string imsi = 2;					//International Mobile Subscriber Identification Number
+		optional string mobile_manufacturer = 3;	//Manufacturer
+		optional string mobile_type = 4;			//Moblie Model 
+		optional int32 job_server_id = 5;			//JobID
+		optional int64 timestamp = 6;				//Last Image Time
+		optional int32 screen_width = 7;			//Screen Width
+		optional int32 screen_height = 8;			//Screen Height
+}
+
+//Get splash response
+message GetSplashResponse {
+        optional int32 job_server_id = 1;			//JobID
+		optional int64 timestamp = 2;				//Last Response Time
+		optional string start_date = 3;				//Job Start Time
+		optional string end_date = 4;				//Job End Time
+		optional string background_color = 5;		//Fill Back Color
+		optional int32 display_time = 6;			//Display Time Span
+		repeated Splash splash = 7;					//List of Image
+		optional int32 frequency = 8;				//The Frequency of Request
+}

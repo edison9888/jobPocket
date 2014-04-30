@@ -1,0 +1,26 @@
+/*
+ device_sign_proto
+
+
+ Author:
+
+  Aaron.Lucas (Aaron.Lucas@live.cn)
+
+ Version: 1.0
+
+ Creation Time: 2012-12-12
+
+ Description:
+
+  Device sign
+
+*/
+
+option optimize_for = LITE_RUNTIME;
+
+package ctuab.proto.message;
+
+//Device sign request
+message DeviceSignRequest {
+	required string device_id = 1;		//Device ID
+}
