@@ -1,0 +1,33 @@
+/*
+ recover_calllog_proto
+
+ Author:
+
+ Zhu Wenchong
+
+ Zhu Wenchong (zhuwenchong@ctid.com.cn)
+
+ Version: 1.0
+
+ Creation Time: 2012-06-12
+
+ Description:
+
+	Download CallLog Request and Response
+
+*/
+
+option optimize_for = LITE_RUNTIME;
+
+import "base_type_proto";
+
+package ctuab.proto.message;
+
+//Recover CallLog request---download the whole calllogs
+
+
+//Recover CallLog response
+message RecoverCallLogResponse {
+	repeated CallLog call_log		=	1;		// calllogs from server
+}
+

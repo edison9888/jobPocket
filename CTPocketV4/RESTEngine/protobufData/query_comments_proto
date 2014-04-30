@@ -1,0 +1,55 @@
+/*
+ query_public_info_proto
+
+
+ Author:
+
+  Xu Pengcheng
+
+ Version: 1.0
+
+ Creation Time: 2014-01-02
+
+ Description:
+
+  Query Comments
+
+*/
+
+option optimize_for = LITE_RUNTIME;
+
+package ctuab.proto.message;
+
+message QComment
+{
+	optional string userName = 1;			//UserName
+	optional string portraitUrl  = 2;		//PortraitUrl 
+	optional string content = 3;			//Content of Comment
+	optional int32 mark1 = 4[default = 5];	
+	optional int32 mark2 = 5[default = 5];	
+	optional int32 mark3 = 6[default = 5];	
+	optional int32 mark4 = 7[default = 5];	
+	optional int32 mark5 = 8[default = 5];	
+	optional string commentTime = 9;		//Comment Time
+}
+
+message CommentInfoRequest
+{
+	required string companyID = 1;			//The ID of Comapny
+	optional string content = 2;
+	optional int32 mark1 = 3[default = 5];	
+	optional int32 mark2 = 4[default = 5];	
+	optional int32 mark3 = 5[default = 5];	
+	optional int32 mark4 = 6[default = 5];	
+	optional int32 mark5 = 7[default = 5];
+	optional string iPAddress = 8;
+	optional int32 start = 9;
+	optional int32 rows = 10;
+}
+
+message CommentInfoResponse
+{
+	repeated QComment comments = 1;
+	optional int64 numFound = 2;
+	optional int32 status = 3;
+}

@@ -1,0 +1,30 @@
+/*
+ init_multi_upload_proto
+
+ Author:
+
+ Xu Rui
+
+ Xu Rui (xurui@ctid.com.cn)
+
+ Version: 1.0
+
+ Creation Time: 2012-06-18
+
+ Description:
+
+	Initialize multiple upload for single file
+
+*/
+
+option optimize_for = LITE_RUNTIME;
+
+import "base_type_proto";
+
+package ctuab.proto.message;
+
+//Initialize multiple upload for single file response
+message InitMultiUploadResponse {
+	required string upload_id		=	1;	  //Upload ID
+	required uint32 expires         =   2;    //Expiration seconds for the upload ID
+}
