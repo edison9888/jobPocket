@@ -5,39 +5,39 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>C2F3E034-46F7-4F6B-BBEB-5A9322F4640D</string>
+	<string>C29F41AF-8ED1-4B56-95E8-6B5D87A338A5</string>
 	<key>IDESourceControlProjectName</key>
 	<string>CTPocketV4</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>E618399C-A87D-42B2-BC3B-5F486D4A1950</key>
-		<string>https://113.108.186.148:446/svn/ppc/project/%E6%8E%8C%E4%B8%8A%E8%90%A5%E4%B8%9A%E5%8E%85/IOS/%E7%B3%BB%E7%BB%9F%E6%BA%90%E7%A0%81/CTPocketV4</string>
+		<key>E86395D9-BE9A-46C4-87C7-DB97A5B3CD61</key>
+		<string>https://192.168.116.106:446/svn/ppc/project/%E6%8E%8C%E4%B8%8A%E8%90%A5%E4%B8%9A%E5%8E%85/IOS/%E7%B3%BB%E7%BB%9F%E6%BA%90%E7%A0%81/CTPocketV4</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>CTPocketV4.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>E618399C-A87D-42B2-BC3B-5F486D4A1950</key>
+		<key>E86395D9-BE9A-46C4-87C7-DB97A5B3CD61</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectRepositoryRootDictionary</key>
 	<dict>
-		<key>E618399C-A87D-42B2-BC3B-5F486D4A1950</key>
-		<string>https://113.108.186.148:446/svn/ppc</string>
+		<key>E86395D9-BE9A-46C4-87C7-DB97A5B3CD61</key>
+		<string>https://192.168.116.106:446/svn/ppc</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://113.108.186.148:446/svn/ppc/project/%E6%8E%8C%E4%B8%8A%E8%90%A5%E4%B8%9A%E5%8E%85/IOS/%E7%B3%BB%E7%BB%9F%E6%BA%90%E7%A0%81/CTPocketV4/CTPocketV4.xcodeproj</string>
+	<string>https://192.168.116.106:446/svn/ppc/project/%E6%8E%8C%E4%B8%8A%E8%90%A5%E4%B8%9A%E5%8E%85/IOS/%E7%B3%BB%E7%BB%9F%E6%BA%90%E7%A0%81/CTPocketV4/CTPocketV4.xcodeproj</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>E618399C-A87D-42B2-BC3B-5F486D4A1950</string>
+	<string>E86395D9-BE9A-46C4-87C7-DB97A5B3CD61</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.subversion</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>E618399C-A87D-42B2-BC3B-5F486D4A1950</string>
+			<string>E86395D9-BE9A-46C4-87C7-DB97A5B3CD61</string>
 			<key>IDESourceControlWCCName</key>
 			<string>CTPocketV4</string>
 		</dict>
