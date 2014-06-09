@@ -1,0 +1,84 @@
+* {
+  margin: 0px;
+  padding:0px;
+  /*font-family: helvetica, sans-serif;
+  font-size: 12pt;*/
+  line-height: 18pt;
+  letter-spacing: -0.05px;
+  word-wrap: break-word;
+  -webkit-touch-callout:none;
+}
+
+body 
+{
+  margin: 10px;
+  padding:0px;
+  background: transparent;
+}
+
+p
+{
+    margin-left:  15px; 
+    margin-right: 15px;
+    text-indent:  0em; /*em是相对单位，2em即现在一个字大小的两倍*/
+}
+
+p.title     /*标题*/
+{
+    font-family: helvetica;
+    font-size:   20px;
+    color:       #111111;
+    text-indent: 0em;
+}
+
+p.date      /*时间*/
+{
+    font-family: helvetica;
+    font-size:   10px;
+    color:       #6d6c6c;
+    text-indent: 0em;
+}
+
+p.content   /*正文*/
+{
+    text-indent: 2em;
+}
+
+a 
+{
+  padding:5px;
+  font-weight: bold;
+  color: #236ed8;
+  text-decoration: none;
+  -webkit-tap-highlight-color: rgba(200,220,255,0.5);
+}
+
+img
+{
+  max-width:270px;
+  margin-left: 15px;
+  margin-right:15px
+}
+
+
+.footer {
+  height: 40px;
+  text-align: left;
+  color: #aaa;
+  font-size: 11pt;
+  margin-top: 8px;
+  line-height: 12pt;
+  -webkit-user-select: none;
+}
+
+.footer a {
+  font-weight: bold;
+  font-size: 11pt;
+  color: #789;
+  line-height: 12pt;
+}
+
+p.divline
+{
+    line-height: 12pt;
+}

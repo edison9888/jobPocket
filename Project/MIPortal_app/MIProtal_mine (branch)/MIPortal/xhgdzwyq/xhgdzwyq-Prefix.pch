@@ -1,0 +1,116 @@
+//
+// Prefix header for all source files of the 'xhgdzwyq' target in the 'xhgdzwyq' project
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_4_0
+#warning "This project uses features only available in iOS SDK 4.0 and later."
+#endif
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+
+    #import "JsonModel.h"
+    #import "EsUserVerify.h"
+    #import "Global.h"
+    #import "EsNetworkPredefine.h"
+    #import "NSDataAdditions.h"
+    #import "NSMutableDataAdditions.h"
+    #import "Utils.h"
+    #import "BaseDataSource.h"
+    #import "ToastAlertView.h"
+    #import "BaseViewCtler.h"
+#endif
+
+// 去掉log
+//#ifdef __i386__
+//#    define NSLog(...) NSLog(__VA_ARGS__)
+//#else
+//#    define NSLog(...) {}
+//#endif
+
+/**
+ *	@brief	调试输出
+ */
+#ifdef DEBUG
+#define CLog(format, ...) NSLog(format, ## __VA_ARGS__)
+#else
+#define CLog(format, ...)
+#endif
+
+#define kAppBuildVersion    8      // 每次出版本累加一次
+
+// 服务器请求地址
+
+#define  kisTestEnv              1 // 1:测试  0:生产
+#define  kisOracle               0 // 1:oracle 0:mysql
+#if kisTestEnv
+    #define kServiceUrl @"http://192.168.115.12:8080/proGateway/iface.htm"  //@"http://192.168.116.88:8080/productGwMySQL/iface.htm" //@"http://192.168.116.84:8080/ep/iface.htm"   // 测试地址
+#else
+  #if kisOracle
+    #define kServiceUrl @"http://10.18.97.80:8080/proGateway/iface.htm"    // oracle地址
+  #else
+    #define kServiceUrl @"http://113.108.186.146:8080/proGateway/iface.htm"    // 生产地址
+  #endif
+#endif
+
+
+// 便利宏
+#define RGB(r,g,b,a) [UIColor colorWithRed:(r)/255. green:(g)/255. blue:(b)/255. alpha:(a)]
+#define kUIColorFromRGB(rgbValue)  [UIColor \
+                                    colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
+                                    green:((float)((rgbValue & 0xFF00) >> 8))/255.0 \
+                                    blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+
+#define __iPhone5__ ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)
+#define  APP_VERSION   ([[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"])
+#define IOS7_OR_LATER  ([[[UIDevice currentDevice] systemVersion] compare:@"7.0"] != NSOrderedAscending)
+
+// 缓存数据
+#define kPhoneNumber @"phoneNumber"
+#define kLoginToken  @"loginToken"
+#define kVerifyCode  @"verifyCode"
+#define kAES256Key   @"!@#newsHelper!@#$newsHelper%^&*"
+#define kPushMsgIDsNotReceive  @"PushMsgIDsNotReceive"  // 保存不接收通知的栏目id
+
+// post message
+#define kMsgLoginSuccess    @"MsgLoginSuccess"
+#define kMsgAutoLoginFail   @"MsgAutoLoginFail"
+#define kMsgAutoLogout      @"MsgAutoLogout"
+#define kMsgChangeUIStyle   @"MsgChangeUIStyle"
+#define kMsgChangeUIFinish  @"MsgChangeUIFinish"
+#define kMsgNewsListRefresh @"MsgNewsListRefresh"
+#define kMsgBack2NewsList   @"MsgBack2NewsList"
+#define kReceiveRemoteNotification   @"ReceiveRemoteNotification"    // 收到通送通知
+
+#define kAppIDInAppstore    @"733259580"
+
+// 日夜间模式颜色变化
+#define kBackgroundColor_D  ([UIColor whiteColor])      // 背景色
+#define kBackgroundColor_N  (RGB(0x11, 0x11, 0x11, 1))
+
+#define kNavigationBarBGColor (RGB(170, 16, 13, 1))   // navigation bar
+
+#define kNewsListTextColor_D (RGB(0x33, 0x33, 0x33, 1))   // 列表页文字
+#define kNewsListTextColor_N (RGB(0x99, 0x99, 0x99, 1))
+
+#define kNewsListLineColor_D (RGB(0xd0, 0xd0, 0xd0, 1))   // 列表页分隔线
+#define kNewsListLineColor_N (RGB(116, 116, 116, 1))
+
+
+// bestapp sdk
+#if kisTestEnv
+    #define  kBestappSdkAppId        @"3b2c3aa1e03db1aa"
+    #define  kBestappSdkAppKey       @"00ccee4ebc55450e90bf287dee988358"
+#else
+    #define  kBestappSdkAppId        @"6cc46fbbdd6de9a6"
+    #define  kBestappSdkAppKey       @"5de24ef836bd25d284570b33ef657217"
+#endif
+#define  kBestappSdkOpen         0      // 1: 集成BESTAPP sdk, 0: 不集成
+#if (kBestappSdkOpen)
+    #import "Bearing.h"
+#endif
+
+#define kAddLocalMode          1 //1、加入本地模块配置，0、不加入

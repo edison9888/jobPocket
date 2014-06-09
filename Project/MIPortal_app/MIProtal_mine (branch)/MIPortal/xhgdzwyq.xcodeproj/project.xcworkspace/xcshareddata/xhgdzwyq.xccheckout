@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>1DE7E07D-6D9F-4B79-88E0-E5450173BE3E</string>
+	<key>IDESourceControlProjectName</key>
+	<string>xhgdzwyq</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>801540D9-95C2-4BAF-BF0A-D50B74C44B8B</key>
+		<string>https://113.108.186.148:446/svn/ppc/project/MIPortal_app/Client_iOS/branches/MIProtal_mine</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>MIPortal/xhgdzwyq.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>801540D9-95C2-4BAF-BF0A-D50B74C44B8B</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectRepositoryRootDictionary</key>
+	<dict>
+		<key>801540D9-95C2-4BAF-BF0A-D50B74C44B8B</key>
+		<string>https://113.108.186.148:446/svn/ppc</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://113.108.186.148:446/svn/ppc/project/MIPortal_app/Client_iOS/branches/MIProtal_mine/MIPortal/xhgdzwyq.xcodeproj</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>801540D9-95C2-4BAF-BF0A-D50B74C44B8B</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.subversion</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>801540D9-95C2-4BAF-BF0A-D50B74C44B8B</string>
+			<key>IDESourceControlWCCName</key>
+			<string>MIProtal_mine (branch)</string>
+		</dict>
+	</array>
+</dict>
+</plist>

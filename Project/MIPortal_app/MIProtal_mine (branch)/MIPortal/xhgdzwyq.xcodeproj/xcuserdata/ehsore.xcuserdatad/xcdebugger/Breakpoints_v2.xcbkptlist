@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "xhgdzwyq/mine/EsNewsHistoryViewCtler.m"
+            timestampString = "423627278.898604"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "14"
+            endingLineNumber = "14"
+            landmarkName = "@interface EsNewsHistoryViewCtler()"
+            landmarkType = "2">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[EsNewsHistoryViewCtler CSView]"
+                  moduleName = "xhgdzwyq"
+                  urlString = "file:///Users/ehsore/Documents/projects/MIPortal_app/Client_iOS/branches/MIProtal_mine/MIPortal/xhgdzwyq/mine/EsNewsHistoryViewCtler.m"
+                  timestampString = "423627279.203805"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "20"
+                  endingLineNumber = "20"
+                  offsetFromSymbolStart = "24">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[EsNewsHistoryViewCtler setCSView:]"
+                  moduleName = "xhgdzwyq"
+                  urlString = "file:///Users/ehsore/Documents/projects/MIPortal_app/Client_iOS/branches/MIProtal_mine/MIPortal/xhgdzwyq/mine/EsNewsHistoryViewCtler.m"
+                  timestampString = "423627279.205431"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "20"
+                  endingLineNumber = "20"
+                  offsetFromSymbolStart = "31">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
