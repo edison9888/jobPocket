@@ -1,0 +1,18 @@
+//
+//  MineRightCVtler.h
+//  CTPocketV4
+//
+//  Created by Gong Xintao on 14-5-26.
+//  Copyright (c) 2014年 广东亿迅科技有限公司. All rights reserved.
+//工厂类
+
+#import "MMDrawerController.h"
+@class CTBaseViewController;
+@protocol  ChangeRightDelegate;
+@interface MineRightManager : NSObject
++(instancetype)instance;
+-(UIViewController*)currentController;
+@property(weak,nonatomic)id<ChangeRightDelegate> changeRightDelegate;
+-(void)login;
+-(void)showDingdang;
+@end

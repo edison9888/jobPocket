@@ -1,0 +1,125 @@
+//
+//  RightRootVCtler.m
+//  CTPocketV4
+//
+//  Created by Gong Xintao on 14-5-26.
+//  Copyright (c) 2014年 广东亿迅科技有限公司. All rights reserved.
+//
+
+#import "RightRootVCtler.h"
+#import "CustomizeSliderController.h"
+
+//用于push新的界面
+@interface RightPushVCtler: CTBaseViewController
+{
+    int visibleCount;
+}
+@end
+@implementation RightPushVCtler
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+        visibleCount=1;
+    }
+    return self;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+}
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    if (visibleCount>1) {
+        
+    }
+    visibleCount++;
+}
+@end
+
+
+
+@interface RightRootVCtler ()
+{
+    CustomizeSliderController *slider;
+    UINavigationController *pushNavVCtler;
+}
+@end
+
+@implementation RightRootVCtler
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+	// Do any additional setup after loading the view.
+    slider=[CustomizeSliderController instance];
+    [self addChildViewController:slider];                // 1
+    slider.view.frame = self.view.bounds; // 2
+    [self.view addSubview:slider.view];
+    [slider didMoveToParentViewController:self];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+-(UINavigationController*)navigationController
+{
+    return [slider navigationController];
+}
+#pragma mark - Navigation
+-(void)initPushNavigation
+{
+    if (pushNavVCtler==nil) {
+        RightPushVCtler *rpv=[[RightPushVCtler alloc] init];
+        pushNavVCtler=[[UINavigationController alloc] initWithRootViewController:rpv];
+        pushNavVCtler.delegate=(id<UINavigationControllerDelegate>)self;
+        [self addChildViewController:pushNavVCtler];
+        pushNavVCtler.view.frame = self.view.bounds; // 2
+        [self.view addSubview:pushNavVCtler.view];
+        [pushNavVCtler didMoveToParentViewController:self];
+    }
+}
+#pragma mark - method
+-(void)pushRightViewController:(UIViewController*)viewController
+{
+    [self initPushNavigation];
+    [pushNavVCtler pushViewController:viewController animated:YES];
+}
+-(void) presentRightViewController:(UIViewController*)viewController
+{
+    [self initPushNavigation];
+    [pushNavVCtler presentModalViewController:viewController animated:YES];
+}
+-(void)removePush
+{
+    if (pushNavVCtler) {
+        [pushNavVCtler willMoveToParentViewController:nil];
+        [pushNavVCtler.view removeFromSuperview];
+        [pushNavVCtler removeFromParentViewController];
+        pushNavVCtler=nil;
+    }
+  
+}
+#pragma mark - UINavigationControllerDelegate
+
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{    if([viewController isKindOfClass:[RightPushVCtler class]])
+{
+    [self performSelector:@selector(removePush) withObject:nil afterDelay:0.44];
+}
+}
+@end

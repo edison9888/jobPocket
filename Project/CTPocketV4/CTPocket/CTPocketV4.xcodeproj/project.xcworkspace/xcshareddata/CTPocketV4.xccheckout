@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>AFE12F52-F185-4ED8-A3E4-567D30463815</string>
+	<key>IDESourceControlProjectName</key>
+	<string>CTPocketV4</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>F9548968-AC48-479D-85B7-D7240A7B48BA</key>
+		<string>https://113.108.186.148:446/svn/ppc/project/%E6%8E%8C%E4%B8%8A%E8%90%A5%E4%B8%9A%E5%8E%85/src/iOS/trunk/CTPocket</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>CTPocketV4.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>F9548968-AC48-479D-85B7-D7240A7B48BA</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectRepositoryRootDictionary</key>
+	<dict>
+		<key>F9548968-AC48-479D-85B7-D7240A7B48BA</key>
+		<string>https://113.108.186.148:446/svn/ppc</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://113.108.186.148:446/svn/ppc/project/%E6%8E%8C%E4%B8%8A%E8%90%A5%E4%B8%9A%E5%8E%85/src/iOS/trunk/CTPocket/CTPocketV4.xcodeproj</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>F9548968-AC48-479D-85B7-D7240A7B48BA</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.subversion</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>F9548968-AC48-479D-85B7-D7240A7B48BA</string>
+			<key>IDESourceControlWCCName</key>
+			<string>CTPocket</string>
+		</dict>
+	</array>
+</dict>
+</plist>

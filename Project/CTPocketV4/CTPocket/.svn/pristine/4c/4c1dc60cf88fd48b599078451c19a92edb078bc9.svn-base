@@ -1,0 +1,81 @@
+//
+//  MineRightCVtler.m
+//  CTPocketV4
+//
+//  Created by Gong Xintao on 14-5-26.
+//  Copyright (c) 2014年 广东亿迅科技有限公司. All rights reserved.
+//
+
+#import "MineRightManager.h"
+#import "CTBaseViewController.h"
+#import "MineNonLoginVCtler.h"
+#import "MineLoginedVCtler.h"
+#import "CTLoginVCtler.h"
+#import "AppDelegate.h"
+#import "CTNavigationController.h"
+#import "CustomizeSliderController.h"
+#import "COQueryListVctler.h"
+@interface MineRightManager ()
+
+@end
+
+@implementation MineRightManager
++(instancetype)instance
+{
+    MineRightManager *mine=[[MineRightManager alloc] init];
+    
+    return mine;
+}
+#pragma mark - viewcontroller  
+-(UIViewController*)currentController
+{
+    CTBaseViewController *rootCVtler=nil;
+    if ([Global sharedInstance].isLogin)
+    {
+//        rootCVtler=[self logined];
+        rootCVtler=[self nonLogin];
+    }
+    else
+    {
+        rootCVtler=[self nonLogin]; 
+    }
+    CTNavigationController *nav=[[CTNavigationController alloc] initWithRootViewController:rootCVtler];
+    return nav;
+    
+}
+-(CTBaseViewController*)nonLogin
+{
+    MineNonLoginVCtler *nonLoginVCtler=[[MineNonLoginVCtler alloc] initWithNibName:@"MineNonLoginVCtler" bundle:nil];
+    nonLoginVCtler.manager=self;
+    return nonLoginVCtler;
+}
+-(CTBaseViewController*)logined
+{
+    MineLoginedVCtler *loginVCtler=[[MineLoginedVCtler alloc] initWithNibName:@"MineLoginedVCtler" bundle:nil];
+    loginVCtler.manager=self;
+    return loginVCtler;
+}
+#pragma mark - method 
+#pragma mark 登录
+-(void)login
+{
+    CTLoginVCtler *vc = [[CTLoginVCtler alloc] init];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+    [MyAppDelegate.tabBarController presentViewController:nav animated:YES completion:^(void){
+    }];
+}
+#pragma mark 告诉抽屉管理类要改变界面
+-(void)update
+{
+    [self.changeRightDelegate changeRight:[self logined]];
+}
+#pragma mark - push new controller
+-(void)showDingdang
+{
+    COQueryListVctler* listvc = [[COQueryListVctler alloc] init];
+    listvc.QStatusType = CQQ_Status_ByNetInfo;
+    listvc.namestr =@"sdsd";
+    listvc.codestr =@"dsds";
+    [self.changeRightDelegate pushRightViewController:listvc];
+}
+@end

@@ -1,0 +1,83 @@
+//
+//  MineNonLoginVCtler.m
+//  CTPocketV4
+//
+//  Created by Gong Xintao on 14-5-26.
+//  Copyright (c) 2014年 广东亿迅科技有限公司. All rights reserved.
+//
+
+#import "MineNonLoginVCtler.h"
+#import "MineRightManager.h"
+@interface MineNonLoginVCtler ()
+
+@end
+
+@implementation MineNonLoginVCtler
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+	// Do any additional setup after loading the view.
+    self.title=@"我的";
+    self.tableView.delegate=(id<UITableViewDelegate>)self;
+    self.tableView.dataSource=(id<UITableViewDataSource>)self;
+ self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+-(void)dealloc
+{
+    _manager=nil;
+}
+#pragma mark - IBAction
+-(IBAction)login:(id)sender
+{
+    [self.manager login];
+}
+
+#pragma mark - UITableViewDataSource
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 2;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static  NSString *identifier=@"cell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    if (cell==nil)
+    {
+        cell=[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+    }
+    cell.imageView.image=[UIImage imageNamed:@"qry_subl_11"];
+    cell.textLabel.text=@"订单开始查询";
+    cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
+    return cell;
+}
+#pragma mark - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{
+
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        NSLog(@"%s",__func__);
+    [self.manager showDingdang];
+}
+@end

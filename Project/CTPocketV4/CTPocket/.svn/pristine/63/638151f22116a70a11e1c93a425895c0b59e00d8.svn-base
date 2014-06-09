@@ -1,0 +1,16 @@
+//
+//  MineLoginedVCtler.h
+//  CTPocketV4
+//
+//  Created by Gong Xintao on 14-5-26.
+//  Copyright (c) 2014年 广东亿迅科技有限公司. All rights reserved.
+//已经登录的右侧界面
+
+#import "CTBaseViewController.h"
+@class CTBaseViewController;
+@class MineRightManager;
+@interface MineLoginedVCtler : CTBaseViewController
+//用来打开新界面的navigaiton
+ 
+@property(strong,nonatomic)MineRightManager *manager;
+@end

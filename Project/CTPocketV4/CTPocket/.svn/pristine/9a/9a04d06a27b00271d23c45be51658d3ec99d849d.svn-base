@@ -1,0 +1,88 @@
+//
+//  MineLoginItemCell.m
+//  CTPocketV4
+//
+//  Created by Gong Xintao on 14-5-27.
+//  Copyright (c) 2014年 广东亿迅科技有限公司. All rights reserved.
+//
+
+#import "MineLoginItemCell.h"
+
+@implementation MineLoginItemCell
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        // Initialization code
+    }
+    return self;
+}
+-(id)initWithCoder:(NSCoder *)aDecoder
+{
+    self=[super initWithCoder:aDecoder];
+    if (self) {
+        self.backgroundColor=[UIColor clearColor];
+        self.textLabel.textColor=[UIColor whiteColor];
+        self.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
+    }
+    return self;
+}
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
+    [super setSelected:selected animated:animated];
+
+    // Configure the view for the selected state
+}
+-(void)setupByRow:(int)row
+{
+    self.view_separator.hidden=YES;
+    switch (row) {
+        case 0:
+        {
+            self.view_separator.hidden=NO;
+            
+            self.label_left.hidden=NO;
+            self.imageView.image=[UIImage imageNamed:@"my_score"];
+            self.label_left.text=@"我的积分";
+            
+            self.label_center.hidden=NO; 
+            CGPoint centerPoint= self.label_center.center;
+            [self.label_center sizeToFit];
+            self.label_center.center=centerPoint;
+            
+            self.label_right.hidden=NO;
+            CGRect centerFrame=self.label_center.frame;
+            CGRect rightFrame=self.label_right.frame;
+            rightFrame.origin.x=CGRectGetMaxX(centerFrame);
+            self.label_right.frame=rightFrame;
+            self.label_right.text=@"积分";
+            [self.label_right sizeToFit];
+            
+        }
+            break;
+        case 1:
+        {
+            self.imageView.image=[UIImage imageNamed:@"mine_ combo_ remaining"];
+            self.label_center.hidden=YES;
+            self.label_right.hidden=YES;
+            self.label_left.text=@"我的套餐余额";
+            [self.label_left sizeToFit];
+        }
+            break;
+        case 2:
+        {
+            self.imageView.image=[UIImage imageNamed:@"mine_order"];
+            self.label_center.hidden=YES;
+            self.label_right.hidden=YES;
+            self.label_left.text=@"我的订单";
+            [self.label_left sizeToFit];
+        }
+            break; 
+            
+        default:
+            break;
+    }
+
+}
+@end

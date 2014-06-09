@@ -1,0 +1,13 @@
+//
+//  AppDelegate+Slider.m
+//  CTPocketV4
+//
+//  Created by Gong Xintao on 14-5-27.
+//  Copyright (c) 2014年 广东亿迅科技有限公司. All rights reserved.
+//
+
+#import "AppDelegate+Slider.h"
+
+@implementation AppDelegate (Slider)
+
+@end

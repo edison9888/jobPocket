@@ -1,0 +1,16 @@
+//
+//  RightRootVCtler.h
+//  CTPocketV4
+//
+//  Created by Gong Xintao on 14-5-26.
+//  Copyright (c) 2014年 广东亿迅科技有限公司. All rights reserved.
+//
+
+#import "CTBaseViewController.h"
+
+@interface RightRootVCtler : CTBaseViewController
+-(UINavigationController*)navigationController;
+-(void)removePush;
+-(void)pushRightViewController:(UIViewController*)viewController;
+-(void) presentRightViewController:(UIViewController*)viewController;
+@end

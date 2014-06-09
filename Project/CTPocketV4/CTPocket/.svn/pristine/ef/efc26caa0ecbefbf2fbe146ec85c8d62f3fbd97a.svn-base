@@ -1,0 +1,100 @@
+//
+//  CustomizeSliderController.m
+//  CTPocketV4
+//
+//  Created by Gong Xintao on 14-5-26.
+//  Copyright (c) 2014年 广东亿迅科技有限公司. All rights reserved.
+//
+
+#import "CustomizeSliderController.h"
+#import "CTHomeVCtler.h"
+#import "MineRightManager.h"
+#import "CTNavigationController.h"
+#import "RightRootVCtler.h"
+@interface CustomizeSliderController ()
+{
+    CTNavigationController *rigNav;
+}
+@end
+
+@implementation CustomizeSliderController
++(instancetype)instance
+{
+    CTHomeVCtler *vc1 = [[CTHomeVCtler alloc] init];
+    CTNavigationController *center= [[CTNavigationController alloc] initWithRootViewController:vc1];
+    
+    MineRightManager * rightDrawer = [MineRightManager instance];
+    
+    CustomizeSliderController * drawerController = [[CustomizeSliderController alloc]
+                                             initWithCenterViewController:center
+                                             leftDrawerViewController:nil
+                                                    rightDrawerViewController:[rightDrawer currentController]];
+    //是否点击左侧关闭
+     drawerController.closeDrawerGestureModeMask ^= MMCloseDrawerGestureModeTapCenterView;
+    //设置宽度
+    [drawerController     setMaximumRightDrawerWidth:240  animated:YES   completion:nil];
+    //设置动画
+    [drawerController setDrawerVisualStateBlock:^(MMDrawerController *drawerController, MMDrawerSide drawerSide, CGFloat percentVisible) {
+         UIViewController * sideDrawerViewController;
+         CATransform3D transform;
+         CGFloat maxDrawerWidth;
+         
+         if(drawerSide == MMDrawerSideLeft){
+             sideDrawerViewController = drawerController.leftDrawerViewController;
+             maxDrawerWidth = drawerController.maximumLeftDrawerWidth;
+         }
+         else if(drawerSide == MMDrawerSideRight){
+             sideDrawerViewController = drawerController.rightDrawerViewController;
+             maxDrawerWidth = drawerController.maximumRightDrawerWidth;
+         }
+         
+         if(percentVisible > 1.0){
+             transform = CATransform3DMakeScale(percentVisible, 1.f, 1.f);
+             
+             if(drawerSide == MMDrawerSideLeft){
+                 transform = CATransform3DTranslate(transform, maxDrawerWidth*(percentVisible-1.f)/2, 0.f, 0.f);
+             }else if(drawerSide == MMDrawerSideRight){
+                 transform = CATransform3DTranslate(transform, -maxDrawerWidth*(percentVisible-1.f)/2, 0.f, 0.f);
+             }
+         }
+         else {
+             transform = CATransform3DIdentity;
+         }
+         [sideDrawerViewController.view.layer setTransform:transform];
+         
+     }];
+    
+    vc1.sliederDelegate=drawerController;
+    rightDrawer.changeRightDelegate=drawerController;
+    return drawerController;
+}
+#pragma mark - method
+-(UINavigationController*)navigationController
+{
+    return (UINavigationController*)self.centerViewController;
+}
+#pragma mark - SliderDelegate
+-(void)expandRight
+{
+     [self toggleDrawerSide:MMDrawerSideRight animated:YES completion:nil];
+}
+-(void)shrinkRight
+{
+    [self toggleDrawerSide:MMDrawerSideRight animated:YES completion:nil];
+}
+#pragma mark - ChangeRightDelegate
+-(void)changeRight:(CTBaseViewController*)rightVCtler
+{
+    [self setRightDrawerViewController:rightVCtler];
+}
+-(void)pushRightViewController:(UIViewController*)viewController
+{
+    RightRootVCtler *root= (RightRootVCtler*) self.parentViewController;
+    [root pushRightViewController:viewController];
+}
+-(void) presentRightViewController:(UIViewController*)viewController
+{
+     RightRootVCtler *root= (RightRootVCtler*) self.parentViewController;
+    [root presentRightViewController:viewController];
+}
+@end
