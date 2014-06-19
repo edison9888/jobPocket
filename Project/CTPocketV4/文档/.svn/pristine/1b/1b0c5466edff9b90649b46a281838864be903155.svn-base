@@ -1,0 +1,96 @@
+﻿iOS终端与云端的映射规则如下：
+
+
+号码类：(kABPersonPhoneProperty)
+
+移动电话——常用手机(kABPersonPhoneMobileLabel) -- (MobilePhone)
+
+iphone——商务手机(kABPersonPhoneIPhoneLabel) —— (WorkMobilePhone)
+
+住宅——常用固话(kABHomeLabel) —— (Telephone)
+
+工作——商务固话(kABWorkLabel) —— (WorkTelephone)
+
+主要——家庭固话(kABPersonPhoneMainLabel) —— (HomeTelephone)
+
+住宅传真——家庭传真(kABPersonPhoneHomeFAXLabel) —— (HomeFax)
+
+工作传真——常用传真(kABPersonPhoneWorkFAXLabel) —— (WorkFax)
+
+
+
+
+邮箱类：(kABPersonEmailProperty)
+
+住宅——常用邮箱(kABHomeLabel) —— (email)
+
+工作——商务邮箱(kABWorkLabel) —— (workEmail)
+
+其他——公司邮箱(kABOtherLabel) —— (comEmail)
+
+
+农历生日(kSABLunarBirthdayLabel) —— (lunarBirthday)
+
+性别(kSABGenderLabel) —— (gender)
+
+星座(kSABConstellationLabel) —— (constellation)
+
+血型(kSABBloodTypeLabel) —— (bloodType)
+
+
+
+名字类：
+
+(kABPersonFirstNameProperty)名 -- 名 (name.givenName)
+
+(kABPersonLastNameProperty) 姓 -- 姓 (name.familyName)
+
+(kABPersonNicknameProperty) 昵称 -- 昵称 (name.nickName)
+
+
+
+雇佣类：
+
+(kABPersonJobTitleProperty)职务 -- 职务 (employed.empTitle)
+
+(kABPersonDepartmentProperty) 部门 -- 部门 (employed.empDept)
+
+(kABPersonOrganizationProperty) 组织 -- 公司 (employed.empCompany)
+
+
+
+其他信息：
+
+(kABPersonBirthdayProperty) 生日 —— 生日 (birthday)
+
+(kABPersonNoteProperty) 备忘录 —— 备注 (comment)
+
+
+
+URL类(kABPersonURLProperty)：
+
+(kABPersonHomePageLabel) 首页 —— 个人主页 (personPage)
+
+(kABWorkLabel) 工作 －－ 公司主页 (comPage)
+
+
+
+地址类 (kABPersonAddressProperty)：
+
+(kABHomeLabel／kABPersonAddressStreetKey) 家庭街道 -- 家庭地址 (homeAddr.addrValue)
+
+(kABHomeLabel／kABPersonAddressZIPKey) 家庭邮政编码——家庭邮编 (homeAddr.addrPostal)
+
+(kABWorkLabel／kABPersonAddressStreetKey) 工作街道 -- 工作地址 (workAddr.addrValue)
+
+(kABWorkLabel／kABPersonAddressZIPKey) 工作邮政编码——工作邮编 (workAddr.addrPostal)
+
+
+
+说明：
+
+1、终端侧其他的的字段，平台侧无法映射的均顺序以“字段名称：字段值”放到备忘录字段当中，每个字段以“；”分割。
+2、平台侧其他字段，终端侧属于需要自定义的，在有值的情况下由程序自动根据平台侧的名称在终端侧生成。这类字段包括：e家电话，VPN，性别，星座，血型，QQ，MSN
+3、如果地址值原生是服务器，则在终端侧，将所有的值放到街道字段中；生日，只处理公历，不管平台侧是农历还是公历，客户端均处理成公历。
+
+
