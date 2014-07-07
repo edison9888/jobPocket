@@ -1,0 +1,209 @@
+//
+// Prefix header for all source files of the 'CTPocketV4' target in the 'CTPocketV4' project
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_4_0
+#warning "This project uses features only available in iOS SDK 4.0 and later."
+#endif
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+
+    #import "DDLog.h"
+    #import <SDWebImage/UIImageView+WebCache.h>
+    #import "MKNetworkKit.h"
+    
+    #import "Global.h"
+
+    #import "TrackingHelper.h"
+
+    #import "Utils.h"
+#endif
+
+/**
+ *	@brief	调试输出
+ */
+#ifdef DEBUG
+#define CLog(format, ...) NSLog(format, ## __VA_ARGS__)
+#else
+#define CLog(format, ...)
+#endif
+
+
+// 便利宏
+#define RGB(r,g,b,a) [UIColor colorWithRed:(r)/255. green:(g)/255. blue:(b)/255. alpha:(a)]
+//判断是否是ios7
+#define isIOS7 ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)
+
+
+#define isHBZSTestEnv   1   // 号簿助手是否为测试环境，1:测试环境，0:生产环境, added by zy, 2014-04-09
+
+//为了初始化tab bar才处理通知的跳转 create by gongxt
+#define DEAL_WITH_NOTIFICATION @"dealWithNotification"
+//为了处理自动登录后才进行的跳转而定义的通知key create by gongxt
+#define INITIAL_AUTO_LOGIN @"initialAutoLogin"
+// lumberjack logger
+#ifdef DEBUG
+static const int ddLogLevel = LOG_LEVEL_VERBOSE;
+#else
+static const int ddLogLevel = LOG_LEVEL_WARN;
+#endif
+
+// 判断4寸屏幕iPhone
+#define iPhone5 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)
+
+// 服务器地址开关
+#define isDeBug 1  //0生产地址 1测试地址
+/**
+ 新增接口调用地址
+ 登记推荐人信息 regRecomNbr
+ 我的推荐奖励查询 qryAwards
+ 领取推荐奖励 getAward
+ 短信验证码发送 getRandom2
+ 推荐入口及配置获取 getAwardConfig
+ **/
+#define SERVICE_XML_Service2_Debug    @"cservice.client.189.cn:9101/mp/v2/api?encrypted=true"  //测试地址
+#define SERVICE_XML_Service2_Releace  @"118.85.207.85:8008/v2/api?encrypted=true"              //生产地址
+
+#define SERVICE_XML_Service_Debug     @"cservice.client.189.cn:9101/map/clientXML?encrypted=true"  //测试地址
+#define SERVICE_XML_Service_Releace   @"cservice.client.189.cn:8004/map/clientXML?encrypted=true"  //生产地址
+
+#define SERVICE_BestTone @"116.228.55.155:6060/dataquery/query"   // 号百接口  公司网络封了6060端口
+#define SERVICE_Feedback @"10000club.189.cn:80"   // 反馈接口
+#define SERVICE_AppStore @"itunes.apple.com:80"   // App Store
+
+
+// 号百位置服务平台
+#define BESTTONE_OPEN_URL   @"http://116.228.55.155:6060/dataquery/query"
+#define BESTTONE_POI_KEY    @"20d414490c0796810824694779fb35d0e19e5f23b4ef7df17d3dc74720cd2a8fe98a173f9576d007"
+
+#define APPTITLE @"电信营业厅"
+
+//******************************************************
+/*
+ 亿迅IOS的渠道配置信息。
+ 
+ 测试
+ 渠道名称	渠道号(Source)	渠道密码(SourcePassWord)	店铺ID(ShopId)
+ 亿迅IOS	120002	TiqmIZ	20004
+ 生产
+ 渠道名称	渠道号(Source)	渠道密码(SourcePassWord)	店铺ID(ShopId)
+ 亿迅IOS	120002	x4RdQT	20004
+ */
+
+/*
+ 充值页 宏
+ */
+// 充值跳转使用的宏
+#define CTP_MSG_RECHARGE_BANK    @"CTP_MSG_RECHARGE_bank"
+#define CTP_MSG_RECHARGE_CARD    @"CTP_MSG_RECHARGE_card"
+#define CTP_MSG_RECHARGE_BUYCARD @"CTP_MSG_RECHARGE_buyCard"
+#define CTP_MSG_KEYBORDER        @"CTP_MSG_KeyBorder"
+
+// 电话联系人
+#define CTP_MSG_CONTRACTER_PHONENUM @"CTP_MSG_CONTRACTER_phoneNum"
+
+// 充值类型  流量、话费
+#define RECHARGE_TYPE           @"Recharge_Type"
+#define RECHARGE_CHANNEL        @"Recharge_Channel"
+#define DISCOUNTDATE            @"DiscountDate"
+
+// 订单信息
+#define RECHARGE_STATUS_INFO    @"Recharge_Status_Info"
+#define RECHARGE_ORDERID        @"Recharge_OrderId"
+
+// 购买的充值卡类型
+#define RECHARGECARD_TYPE       @"RechargeCard_Type"
+
+// 所有界面的背景颜色值
+#define PAGEVIEW_BG_COLOR       [UIColor colorWithRed:0.94f green:0.94f blue:0.94f alpha:1.00f]
+
+// 保存地区列表
+#define CTP_SAVE_AREA_LIST              @"arealist.plist"   // 物流编码
+#define CTP_SAVE_AREA_ORG_CODE_LIST     @"arealist_orgcode.plist"       // 机构编码
+#define CTP_MSG_MODIFY_ADDR_INFO        @"CTP_MSG_MODIFY_ADDR_INFO"     // 修改收货地址信息
+#define CTP_MSG_MODIFY_INVOICE_INFO     @"CTP_MSG_MODIFY_INVOICE_INFO"  // 修改发票信息
+#define CTP_MSG_SELECT_RECIPIENT        @"CTP_MSG_SELECT_RECIPIENT"     // 选中某个配送地址后，给上一个界面传递内容
+
+// 优惠靓号
+#define CTP_SAVE_COLLECT_LIST          @"collected.plist"
+
+#define SEARCHTOP_MSG         @"searchTopNumMsg"
+#define SEARCHBUSSINESS_MSG   @"searchBussinessMsg"
+#define SEARCHLOVING_MSG      @"searchLovingMsg"
+#define SEARCHFREE_MSG        @"searchFreeMsg"
+#define CANCELSEARCH_MSG      @"cancelSearchTopNumMsg"
+#define UPDATACOLLECTEDSTATUS @"updataCollectedStatus"
+#define SELECTCITY_MSG        @"selectedCityMsg" 
+
+#define CITYINFO              @"cityInfo"
+
+// 定位消息
+#define LOCATIONCURMSG         @"locationMsg"
+#define CHECKATTRIBUTEMSG      @"checkAttributeMsg"
+
+// 公告和消息条数刷新
+#define RELOADMSGMSG  @"ReloadMsgNum"
+#define MESSAGEFILE   @"msgfile"
+#define ANNOUNCEFILE  @"announcefile"
+#define isTestSource    // 用测试帐号的配置信息
+
+//  业务办理
+#define BUSSINESS_SHOPID_TEST    @"t20004"   // 测试包
+#define BUSSINESS_SHOPID         @"20004"   // 生产包 (发版时改成20004,当前appstore版本使用test20004)
+
+#define ESHORE_Source       @"120002"
+#define ESHORE_ShopId       @"20004"
+#ifdef  isTestSource
+#define ESHORE_SourcePwd    @"TiqmIZ"
+#else
+#define ESHORE_SourcePwd    @"x4RdQT"
+
+#endif
+//******************************************************
+
+
+// 查找附近 post message
+#define kShowWifiMapView    @"ShowWifiMapView"
+
+// 登录成功 post msg
+#define kLoginSuccess       @"LoginSuccess"
+
+//动态参数跳转 dynamic
+#define kDynamicRedirect       @"dynamicRedirect"
+
+ 
+#define MineNameValue @"MineNameValue"
+#define MineShowHome @"MineShowHome"
+
+#define kFirstLoginForRecommend @"FirstLoginForRecommend"
+
+#define kMoreBBHiden @"kMoreBBHiden"//是否在更多界面的光纤显示new图标
+
+// RESTEngine Block
+typedef void (^DictionaryBlock)(NSDictionary *dict);
+typedef void (^ErrorBlock)(NSError *engineError);
+
+// added by zy, 2014-02-13
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000    // 适配ios7 sdk
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    #define UITextAlignment             NSTextAlignment
+    #define UITextAlignmentCenter       NSTextAlignmentCenter
+    #define UITextAlignmentRight        NSTextAlignmentRight
+    #define UITextAlignmentLeft         NSTextAlignmentLeft
+    #define UILineBreakModeWordWrap     NSLineBreakByWordWrapping
+    #define UILineBreakModeCharacterWrap NSLineBreakByCharWrapping
+#pragma clang diagnostic pop
+#endif
+
+//added by huangfq 2014-5-28
+//跟URLScheme 一致  注意修改
+#define kZFBQBURLScheme         @"CTPocketTs"
+
+/** add by gongxt 2014-06-17 
+    所有分享功能中推广客户端的地址 原来是http://189.io/BeWGdn 改为http://wapzt.189.cn/xiazai*/
+#define SHARE_DOWNLOAD_URL @"http://wapzt.189.cn/xiazai"
